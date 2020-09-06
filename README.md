@@ -34,6 +34,6 @@ storing the extremities of human perception can be done with `[159, 134]` giving
 
 storing recuring events is as easy as defining a single bit with the proper omitted
 
-`[148, 147]` stores a total timeframe of ~96.1830s making each value ~48.0915s long. the value stored as `10010100 10010011 1` would repeat every ~96.1830s lasting ~48.0915s as it does not define its parent nodes.
+`[148, 147]` stores a total timeframe of ~96.1830s making each value ~48.0915s long. the value stored as `10010100 10010011 1` (only 17 bits!) would repeat every ~96.1830s lasting ~48.0915s as it does not define its parent nodes.
 
 ## note: the contents of this repository are not guaranteed to match the spec above.
