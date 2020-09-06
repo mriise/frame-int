@@ -7,6 +7,7 @@ An interesting method of storing time inspired by https://github.com/abeusher/ti
 `[ higher | lower | lower-higher = total bits ]`
 
 index of higher steps = 8 bits
+
 lower omitted = 8 bits 
 
 max height is 256 (2^8)
