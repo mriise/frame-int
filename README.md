@@ -1,13 +1,13 @@
 # WARNING: very much a work in progress
 
+An interesting method of storing time inspired by https://github.com/abeusher/timehash
+
 ## format
+
 [ higher | lower | lower-higher = total bits ]
 higher & lower omitted = 8 bits ea
 
 max height is 256 (2^8)
-
-
-indexed chunks = 1 bits (8/16)
 
 ## defining 
 
@@ -17,11 +17,11 @@ This is why the first 16 bits stores the higher, and lower omitted steps. this g
 
 ### examples
 
-[highest, lowest] steps
+`[highest, lowest]` steps
 
-omit [72, 132] gives you a range of ~266,107,207.5864 years to ~.0029 seconds taking up only 48 bits to store the direction of steps. added with the 16 bit header leaves us with a 64 bit value.
+omit `[72, 132]` gives you a range of ~266,107,207.5864 years to ~.0029 seconds taking up only 48 bits to store the direction of steps. added with the 16 bit header leaves us with a 64 bit value.
 
-storing the extremities of human perception can be done with [97, 134] giving a range of ~126.8898 years to ~.0117 seconds with a size of 53 bits.
+storing the extremities of human perception can be done with `[97, 134]` giving a range of ~126.8898 years to ~.0117 seconds with a size of 53 bits.
 
 ## concating definitions
 
