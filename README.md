@@ -7,13 +7,14 @@ An interesting method of storing time inspired by https://github.com/abeusher/ti
 `[ higher | lower | lower-higher = total bits ]`
 
 index of higher steps = 8 bits
+
 lower omitted = 8 bits 
 
 max height is 256 (2^8)
 
 ## defining 
 
-using plank time (5.391247*10^-44s) as the smallest possible unit of time, this format stores times as a perfect binary tree with 2^256*5.391247*10^-44 being the parent and highest possible timeframe value stored.
+using plank time `5.391247x10^-44s` as the smallest possible unit of time, this format stores times as a perfect binary tree with `2^256 x 5.391247x10^-44` being the parent and highest possible timeframe value stored.
 since plank time is incredibly small and it is not often we would want to store timeframes smaller than 1ms and larger than 50 years, there needs to be a bit of control for us to store the timeframes we care about.
 This is why the first 16 bits stores the higher, and lower omitted steps. this gives us a way to store timeframes with a large degree of granulatrity and flexibility.
 
