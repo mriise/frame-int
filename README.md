@@ -22,9 +22,3 @@ This is why the first 16 bits stores the higher, and lower omitted steps. this g
 omit `[72, 132]` gives you a range of ~266,107,207.5864 years to ~.0029 seconds taking up only 48 bits to store the direction of steps. added with the 16 bit header leaves us with a 64 bit value.
 
 storing the extremities of human perception can be done with `[97, 134]` giving a range of ~126.8898 years to ~.0117 seconds with a size of 53 bits.
-
-## concating definitions
-
-since the prefix defines the total number of steps, it is possible to concatinate ms and ps together
-
-where the first prefix 
