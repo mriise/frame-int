@@ -77,8 +77,8 @@ impl TimeOrigin {
 // as u8 >> 4
 #[derive(Copy, Clone, Debug)]
 pub enum ChunkSize {
-    _256 = 0b00_00_0000,
-    _16 = 0b00_01_0000,
+    _256 = 0b00_0_00000,
+    _16 = 0b00_1_00000,
 }
 
 impl ChunkSize {
