@@ -1,4 +1,4 @@
-use binary_timehash::{TimeHash, TimeOrigin};
+use binary_timehash::{Dta};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[test]
@@ -7,14 +7,13 @@ fn test() {
         .duration_since(UNIX_EPOCH)
         .unwrap()
         .as_millis();
-    let current_timehash = TimeHash::from(current_time);
-
+    let current_timehash = Dta::<5>::new(154, 134).unwrap();
     // assert_eq!(
     //     current_timehash.as_slice(),
     //     current_timehash.as_slice(),
     //     "rest {:?}",
     //     current_timehash
     // );
-	println!("{:?}", current_timehash.as_slice());
-	println!("{:?} {:?}", TimeOrigin::to_index(TimeOrigin::Picosecond), TimeOrigin::to_index(TimeOrigin::Millisecond));
+	println!("{:?} string: {}", current_timehash.as_bytes(), current_timehash);
+	// println!("{:?} {:?}", TimeOrigin::to_index(TimeOrigin::Picosecond), TimeOrigin::to_index(TimeOrigin::Millisecond));
 }

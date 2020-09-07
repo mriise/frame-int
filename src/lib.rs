@@ -1,97 +1,67 @@
-// TODO MAX/MIN
+#![feature(min_const_generics)]
+#![forbid(unsafe_code)]
+use std::{error, fmt, };
 
-// 255^n
-// 255^6 ms = 8 712.57223 years
-const MULTIPLIERS: [[u128; 6]; 1] = [
-    [1078203909375, 4228250625, 16581375, 65025, 255, 1],
-    // [0; 6], //TODO
-];
+// TODO Proper Error handling
+// (2^134*(5.391247*.0000000000000000000000000000000000000000001))/3104.787
+// 5.391247x10^-44
+// 2^256
 
-#[allow(dead_code)]
-const COARSENESS: [u8; 15] = [
-    0b0000_0000_,
-    0b0000_0001_,
-    0b0000_0010_,
-    0b0000_0011_,
-    0b0000_0100_,
-    0b0000_0101_,
-    0b0000_0110_,
-    0b0000_0111_,
-    0b0000_1000_,
-    0b0000_1001_,
-    0b0000_1010_,
-    0b0000_1100_,
-    0b0000_1101_,
-    0b0000_1110_,
-    0b0000_1111_,
-];
+#[derive(Debug, Clone)]
+pub struct Dta<const N: usize> ( [u8; N] );
 
-#[derive(Debug)]
-pub struct TimeHash([u8; 7]);
-
-impl From<u128> for TimeHash {
-    fn from(time_millis: u128) -> TimeHash {
-        let mut codes: [u8; 7] = [0; 7];
-
-        // codes[0] = MULTIPLIER_256;
-        let multiplier: [u128; 6] = MULTIPLIERS[0];
-        let mut remaining_timeframe = time_millis;
-        for x in 0..6 {
-            let frame_code = remaining_timeframe / multiplier[x];
-            codes[x + 1] = frame_code as u8;
-            remaining_timeframe = remaining_timeframe - multiplier[x] * frame_code;
+impl<const N: usize> Dta<N> {
+    
+    pub fn new(highest: u8, lowest: u8) -> Result<Self, DtaError<N>> {
+        let total_bits = highest - lowest;
+        // 256/8 = 32 + 2 = 34
+        if N <= 2 || N > 34 || total_bits < 1 || total_bits > (N as u8 - 2)*8 {
+            return Err(DtaError::<N>);
         }
-        let joined_prefix = 0; // TODO implement prefix options
-                               // checked_add
-        codes[0] = joined_prefix;
-        Self(codes)
+        let mut dta: [u8; N] = [0u8; N];
+        dta[0] = highest;
+        dta[1] = lowest;
+        Ok(Dta(dta))
     }
-}
 
-impl TimeHash {
-    #[allow(unused_variables)]
-    pub fn new(time_millis: u64, config: TimeHashConfig) {
-        unimplemented!()
-    }
-    pub fn as_slice(&self) -> [u8; 7] {
+    pub fn as_bytes(&self) -> [u8; N] {
         self.0
     }
 }
-// ms 10^-3
-// ps 10^-12
-// as u8 >> 6
-#[derive(Copy, Clone)]
-pub enum TimeOrigin {
-    Millisecond = 0b_00_000000,
-    Picosecond = 0b_01_000000,
-}
 
-impl TimeOrigin {
-    pub fn to_index(self) -> usize {
-        (self as u8 >> 6) as usize
+impl <const N: usize> fmt::Display for Dta<N> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let bytes = self.as_bytes();
+        let mut string = "".to_owned();
+        let total_bytes = (bytes[0] - bytes[1])/8;
+        for byte_index in 2..total_bytes+2 {
+            let byte_string = format!("{:008b}|", bytes[ byte_index as usize ]);
+            string.push_str(byte_string.as_str());
+        }
+        let remaining_bits = bytes[0] - bytes[1] - (total_bytes * 8);
+        if remaining_bits > 0 {
+            for bit_index in 0..remaining_bits {
+                // (byte & ( 1 << bit )) >> bit
+                // https://stackoverflow.com/questions/2249731/how-do-i-get-bit-by-bit-data-from-an-integer-value-in-c
+                let bit = ( bytes[(total_bytes+1) as usize] & ( 1 << bit_index )) >> bit_index;
+                string.push_str(bit.to_string().as_str())
+            }
+        }
+        write!(f, "[{}-{}: {}]", bytes[0], bytes[1], string)
     }
 }
 
-// 256 blocks/step
-// 16 blocks/step
-// as u8 >> 4
-#[derive(Copy, Clone, Debug)]
-pub enum ChunkSize {
-    _256 = 0b00_0_00000,
-    _16 = 0b00_1_00000,
-}
+#[derive(Debug, Clone)]
+pub struct DtaError<const N: usize>;
 
-impl ChunkSize {
-    pub fn to_u8(self) -> usize {
-        (self as u8 >> 6) as usize
+impl <const N: usize> fmt::Display for DtaError<N> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Total size {} out of range", N)
     }
 }
 
+impl<const N: usize> error::Error for DtaError<N> {}
 
-type Coarseness = u8;
-
-#[derive(Copy, Clone)]
-pub struct TimeHashConfig(TimeOrigin, ChunkSize, Coarseness);
 
 // 274941996890625 seconds range for code 0
 // 1_599_130_443_882
