@@ -1,6 +1,6 @@
 # WARNING: very much a work in progress
 
-An interesting method of storing time inspired by https://github.com/abeusher/timehash
+An interesting method of storing framed integers inspired by https://github.com/abeusher/timehash
 
 ## format
 
