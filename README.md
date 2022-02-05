@@ -4,15 +4,15 @@ An interesting method of storing time inspired by https://github.com/abeusher/ti
 
 ## format
 
-`[ header | 1-4 bytes ]`
+`[ header | bytes ]`
 
 #### header
 
-`[ 4 bit position | 2 bit length | 2 bit shift ]`
+`[ 5 bit position | 2 bit length | 1 bit align ]`
 
 #### full header
 
-`[ 4 bit start index | 4 bit end index ]`
+`[ 5 bit start index | 3 bit align ] --- [ 5 bit length | 3 bit reserved ]`
 
 header stores its index byte, along with the amount of extra bytes stored, with the extra 2 bits used to shift the result 2 bits per from the origin.
 
