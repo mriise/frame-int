@@ -20,11 +20,11 @@ full header simply stores the start and end index, loosing the capability of ext
 
 ## defining 
 
-using plank time `5.391247x10^-44s` as the smallest possible unit of time, this format stores times as a perfect binary tree with `2^256 x 5.391247x10^-44` being the parent and highest possible timeframe value stored.
+<!-- using plank time `5.391247x10^-44s` as the smallest possible unit of time, this format stores times as a perfect binary tree with `2^256 x 5.391247x10^-44` being the parent and highest possible timeframe value stored.
 since plank time is incredibly small and it is not often we would want to store timeframes smaller than 1ms and larger than 50 years, there needs to be a bit of control for us to store the timeframes we care about.
 This is why the first 16 bits stores the higher, and lower omitted steps. this gives us a way to store timeframes with a large degree of granulatrity and flexibility.
 
-____
+____ -->
 for the header we are essentially encoding a u32 out of a u128 ignoring some percision above and below, with a bit of granularity outside of byte borders
 
 
