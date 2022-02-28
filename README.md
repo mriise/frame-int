@@ -18,6 +18,9 @@ header stores its index byte, along with the amount of extra bytes stored, with 
 
 full header simply stores the start and end index, loosing the capability of extra granularity in storage in exchange for being able to adress larger frames.
 
+**TODO** figure out what could be done with the last 3 bits
+* specify num (power of 2) of bytes per index(width?) for larger numbers `(2^5)*2^width` bytes long
+
 ## defining 
 
 <!-- using plank time `5.391247x10^-44s` as the smallest possible unit of time, this format stores times as a perfect binary tree with `2^256 x 5.391247x10^-44` being the parent and highest possible timeframe value stored.
