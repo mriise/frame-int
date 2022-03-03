@@ -19,7 +19,7 @@ header stores its index byte, along with the amount of extra bytes stored, with 
 full header simply stores the start and end index, loosing the capability of extra granularity in storage in exchange for being able to adress larger frames.
 
 **TODO** figure out what could be done with the last 3 bits
-* specify num (power of 2) of bytes per index(width?) for larger numbers `(2^5)*2^width` bytes long
+* specify num of bytes per index(width?) for larger numbers where each index is `width` bytes long, align grows to be `width` bits long per align index
 
 ## defining 
 
